@@ -15,7 +15,8 @@ spring:
           issuer-uri: http://localhost:9000/auth-service
   data:
     redis:
-      host: localhost:6379
+      host: localhost
+      port: 6379
   cloud:
     gateway:
       default-filters:
@@ -33,6 +34,8 @@ spring:
         - id: transaction-service 
           uri: lb://TRANSACTION-SERVICE
           predicates:
+            - Path=/api/transaction/**
+          filters:
             - StripPrefix=1 
             - name: CircuitBreaker
               args:
